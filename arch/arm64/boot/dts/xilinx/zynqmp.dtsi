@@ -20,7 +20,39 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		cpu@0 {
+		cpu-map {
+			cluster0 {
+				core0 {
+					cpu = <&cpub0>;
+				};
+				core1 {
+					cpu = <&cpub1>;
+				};
+				core2 {
+					cpu = <&cpub2>;
+				};
+				core3 {
+					cpu = <&cpub3>;
+				};
+			};
+
+			cluster1 {
+				core0 {
+					cpu = <&cpul0>;
+				};
+				core1 {
+					cpu = <&cpul1>;
+				};
+				core2 {
+					cpu = <&cpul2>;
+				};
+				core3 {
+					cpu = <&cpul3>;
+				};
+			};
+		};
+         
+		cpul0: cpu@0 {
 			compatible = "arm,cortex-a53", "arm,armv8";
 			device_type = "cpu";
 			enable-method = "psci";
@@ -28,7 +60,7 @@
 			cpu-idle-states = <&CPU_SLEEP_0>;
 		};
 
-		cpu@1 {
+		cpul1: cpu@1 {
 			compatible = "arm,cortex-a53", "arm,armv8";
 			device_type = "cpu";
 			enable-method = "psci";
@@ -36,7 +68,7 @@
 			cpu-idle-states = <&CPU_SLEEP_0>;
 		};
 
-		cpu@2 {
+		cpul2: cpu@2 {
 			compatible = "arm,cortex-a53", "arm,armv8";
 			device_type = "cpu";
 			enable-method = "psci";
@@ -44,11 +76,43 @@
 			cpu-idle-states = <&CPU_SLEEP_0>;
 		};
 
-		cpu@3 {
+		cpul3: cpu@3 {
 			compatible = "arm,cortex-a53", "arm,armv8";
 			device_type = "cpu";
 			enable-method = "psci";
 			reg = <0x3>;
+			cpu-idle-states = <&CPU_SLEEP_0>;
+		};
+
+		cpub0: cpu@100 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			enable-method = "psci";
+			reg = <0x100>;
+			cpu-idle-states = <&CPU_SLEEP_0>;
+		};
+
+		cpub1: cpu@101 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			enable-method = "psci";
+			reg = <0x101>;
+			cpu-idle-states = <&CPU_SLEEP_0>;
+		};
+
+		cpub2: cpu@102 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			enable-method = "psci";
+			reg = <0x102>;
+			cpu-idle-states = <&CPU_SLEEP_0>;
+		};
+
+		cpub3: cpu@103 {
+			compatible = "arm,cortex-a53", "arm,armv8";
+			device_type = "cpu";
+			enable-method = "psci";
+			reg = <0x103>;
 			cpu-idle-states = <&CPU_SLEEP_0>;
 		};
 
@@ -227,7 +291,14 @@
 		interrupts = <0 143 4>,
 			     <0 144 4>,
 			     <0 145 4>,
-			     <0 146 4>;
+			     <0 146 4>,
+			     <0 147 4>,
+			     <0 148 4>,
+			     <0 149 4>,
+			     <0 150 4>;
+		interrupt-affinity = <&cpul0>, <&cpul1>, <&cpul2>,
+				     <&cpul3>, <&cpub0>, <&cpub1>,
+				     <&cpub2>, <&cpub3>;
 	};
 
 	psci {
