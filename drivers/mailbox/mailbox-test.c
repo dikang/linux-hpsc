@@ -157,12 +157,14 @@ static ssize_t mbox_test_message_read(struct file *filp, char __user *userbuf,
 		goto out;
 	}
 
+#if 0
 	if (tdev->rx_buffer[0] == '\0') {
 		ret = snprintf(touser, 9, "<EMPTY>\n");
 		ret = simple_read_from_buffer(userbuf, count, ppos,
 					      touser, ret);
 		goto out;
 	}
+#endif
 
 	spin_lock_irqsave(&tdev->lock, flags);
 
@@ -312,15 +314,19 @@ static int mbox_test_probe(struct platform_device *pdev)
 		tdev->rx_mmio = tdev->tx_mmio;
 
 	tdev->tx_channel = mbox_test_request_channel(pdev, "tx");
+#if 0
 	tdev->rx_channel = mbox_test_request_channel(pdev, "rx");
+#endif
 
 	if (!tdev->tx_channel && !tdev->rx_channel) {
 		dev_err(&pdev->dev, "mailbox test: both rx and tx chan null\n");
 		return -EPROBE_DEFER;
 	}
 
+#if 0
 	/* If Rx is not specified but has Rx MMIO, then Rx = Tx */
 	if (!tdev->rx_channel && (tdev->rx_mmio != tdev->tx_mmio))
+#endif
 		tdev->rx_channel = tdev->tx_channel;
 
 	tdev->dev = &pdev->dev;
